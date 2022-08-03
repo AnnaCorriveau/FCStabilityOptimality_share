@@ -1,16 +1,23 @@
 # FCStabilityOptimality_share
 
+============================================
 Analysis code to recreate data for Functional connectome stability and optimality are predictors of cognitive performance
 
+FC_Stab_Typ_Opt_Disc.m calculates individual and group-level connectome features for Datasets 1-3 and their relationship with behavioral performance on sustained attention and working memory tasks.
+
+Network_StabTypOptDisc.m calculates individual and group-level connectome features within 10 canonical networks 
+
+LesionNetworks_StabTyp.m calculates connectome features after computationally lesioning 10 canonical networks to quantify network contribution to prediction
+
+LesionNetworks_NullDistribution_StabTyp.m computationlly lesions random nodes to create distribution of possible network contribution to prediction in order to determine significance of network contribution to prediction
+
+CPM_model_comparison.m calculates sustained attention and working memory CPM network strength in each participant. Outputs a .txt file to be read by FC_StabTypOptDisc_Models.R to construct linear models
+
+FC_StabTypOptDisc_Models.R runs model comparison for mixed-effects models with connectome feature predictors.
 
 
-
-
-
-
-===================================================================================
+==============================================
 SOFTWARE VERSION INFO:
-===================================================================================
 
 MATLAB 
 version '9.11.0.1837725 (R2021b) Update 2'
