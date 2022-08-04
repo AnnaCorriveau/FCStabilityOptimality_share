@@ -158,7 +158,7 @@ end % for iter = IT
 % =======================================================================
 
 if which_DS == 1
-    save(['//Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabAnat'],'Stab','r_stab_ds1','p_stab_ds1','Avg_Stab','r_typ_ds1','p_typ_ds1','Avg_Typ');
+    save(['//Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabAnat'],'Stab','corr_stab_ATTN','sig_stab_ATTN','r_stab_ds1', 'p_stab_ds1', 'Avg_Stab','r_typ_ds1','Avg_Typ');
 elseif which_DS == 2
     save(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabAnat'],'Stab','Typ','corr_typ_ATTN','sig_typ_ATTN','corr_typ_WM','sig_typ_WM','corr_stab_ATTN', 'sig_stab_ATTN', 'corr_stab_WM', 'sig_stab_WM');
 elseif which_DS == 3
