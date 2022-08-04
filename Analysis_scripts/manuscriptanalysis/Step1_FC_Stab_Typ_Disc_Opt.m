@@ -23,6 +23,7 @@ top_percent = .05;
     % in DS2 and DS3, 
     %   sustained attention runs are runs 1-2
     %   working memory runs are runs 3-4
+% edges are Fisher-z values
 
 % behav_ATTN (and behav_WM for Datasets 2 and 3) are vectors reflecting
 % performance on sustained attention and working memory tasks
