@@ -1,6 +1,7 @@
 % Create figures
 clear
 
+
 % ===============================================================================================
 %% ------------------     LOAD DATA        ------------------------------------------------------
 % ===============================================================================================
@@ -754,8 +755,8 @@ end
 
 
 % Find which values are significant
-% off-diagonal, significant = less than bonferroni-corrected p-values
-% on-diagonal, significant = p < .05 
+% off-diagonal, significant less tha bonferroni corrected
+% on-diagonal non-corrected
 runs1 = [1 1 1 2 2];
 for i = 1:size(fig3_stabmat_SA_ds1,1)
     for j = 1:size(fig3_stabmat_SA_ds1,1)
@@ -2668,7 +2669,7 @@ annotation('textarrow', [0.03, 0.3], [0.6, 0.3], 'String', {['Dataset 2']},'Font
 annotation('textarrow', [0.02, 0.3], [0.3, 0.3], 'String', {['Dataset 3']},'FontSize',35,'HeadStyle', 'none', 'LineStyle', 'none','TextRotation',90)
 
 % ----------------------------------------------------------------------------------------------
-%% -----------------------    PLOT Supplementary FIGURE 2 --------------------------------------
+%% ----------------------------------    PLOT FIGURE S2 ----------------------------------------
 % ------------------    Typicality performance quartiles line plot     -------------------------
 % ----------------------------------------------------------------------------------------------
 
@@ -2871,7 +2872,7 @@ set(v1,'units','points','position',[0 50 1800 600])
 
 
 % ======================================================================
-%% ----------------------- Supplementary Figure 5 ----------------------
+%% ----------------------- Supplementary Figure 6 ----------------------
 % -------------- Bar graph of Average task standard deviation ----------
 % ======================================================================
 h1col = [0.4 0 0.5;  0.9 0.6 0];
