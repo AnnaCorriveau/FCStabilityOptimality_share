@@ -11,10 +11,10 @@ clear
 % =======================================================================
 
 % Which dataset do you want to calculate? 1, 2, or 3
-which_DS = [1];
+which_DS = [2];
 
 % How many iterations?
-IT = 1000;
+IT = 250;
 
 % =======================================================================
 %% Load data
@@ -65,8 +65,9 @@ blankmat = ones([268]);
 trlind = find(tril(blankmat, -1));
 
 for iter = 1:IT % iterate ___ times (set at top)
-    disp([['Iteration ' num2str(iter)]) ;
+
     for net = 1:max(Shen_network_labels)
+        disp(['Iteration ' num2str(iter) ' network ' num2str(net)]) ;
 
         num = 1:length(Shen_network_labels);
         which = find(Shen_network_labels == net); % which indices are actually the network(want to make sure we don't include these in MC stats)
@@ -97,7 +98,7 @@ for iter = 1:IT % iterate ___ times (set at top)
 
                     self_corr = corr(run1', run2', 'rows','pairwise');
 
-                    self_FC = tanh(nanmean([atanh(run1); atanh(run2)])');
+                    self_FC = nanmean([run1; run2])';
 
 
                     others1 = fc_flat{r1}(:,lesion_log);
@@ -105,7 +106,7 @@ for iter = 1:IT % iterate ___ times (set at top)
                     others2 = fc_flat{r2}(:,lesion_log);
                     others2(p,:) = [];
                     cat_others = cat(1, others1, others2);
-                    others_FC = tanh(nanmean(cat_others)');
+                    others_FC = nanmean(cat_others)';
 
                     Stab{r1,r2}(p,:) = self_corr;
                     Typ{r1,r2}(p,1) = corr(self_FC, others_FC,'rows','pairwise');
@@ -114,26 +115,27 @@ for iter = 1:IT % iterate ___ times (set at top)
             end % for r2 = 1:size(all_runs,2)
         end % for p =
 
-
-        for r1 = 1:size(Stab,2)
-            for r2 = 1:size(Stab,2)
-
-                stab = Stab{r1,r2};
-                typ = Typ{r1,r2};
-
-                [corr_stab_ATTN{net,iter}(r1,r2), sig_stab_ATTN{net,iter}(r1,r2)] = partialcorr(stab, behav_ATTN, [nanmean([mot{r1}, mot{r2}],2), abs(mot{r1}-mot{r2})],'rows','pairwise','type','Spearman');
-                [corr_typ_ATTN{net,iter}(r1,r2), sig_typ_ATTN{net,iter}(r1,r2)] = partialcorr(typ, behav_ATTN, [nanmean([mot{r1}, mot{r2}],2), abs(mot{r1}-mot{r2})],'rows','pairwise','type','Spearman');
-            end
-        end
-
         if which_DS ~= 1
+
+            for r1 = 1%4%size(Stab,2)
+                for r2 = 2%:4%size(Stab,2)
+
+                    stab = Stab{r1,r2};
+                    typ = Typ{r1,r2};
+
+                    [corr_stab_ATTN{net,iter}(r1,r2), sig_stab_ATTN{net,iter}(r1,r2)] = partialcorr(stab, behav_ATTN, [nanmean([mot{r1}, mot{r2}],2), abs(mot{r1}-mot{r2})],'rows','pairwise','type','Spearman');
+                    [corr_typ_ATTN{net,iter}(r1,r2), sig_typ_ATTN{net,iter}(r1,r2)] = partialcorr(typ, behav_ATTN, [nanmean([mot{r1}, mot{r2}],2), abs(mot{r1}-mot{r2})],'rows','pairwise','type','Spearman');
+                end
+            end
+
+
             for r1 = 3
                 for r2 = 4
                     stab = Stab{r1,r2};
                     typ = Typ{r1,r2};
 
-                    [corr_stab_WM(r1,r2), sig_stab_WM(r1,r2)] = partialcorr(stab, behav_WM, [nanmean([mot{r1}, mot{r2}],2), abs(mot{r1}-mot{r2})],'rows','pairwise','type','Spearman');
-                    [corr_typ_WM(r1,r2), sig_typ_WM(r1,r2)] = partialcorr(typ, behav_WM, [nanmean([mot{r1}, mot{r2}],2), abs(mot{r1}-mot{r2})],'rows','pairwise','type','Spearman');
+                    [corr_stab_WM{net,iter}(r1,r2), sig_stab_WM{net,iter}(r1,r2)] = partialcorr(stab, behav_WM, [nanmean([mot{r1}, mot{r2}],2), abs(mot{r1}-mot{r2})],'rows','pairwise','type','Spearman');
+                    [corr_typ_WM{net,iter}(r1,r2), sig_typ_WM{net,iter}(r1,r2)] = partialcorr(typ, behav_WM, [nanmean([mot{r1}, mot{r2}],2), abs(mot{r1}-mot{r2})],'rows','pairwise','type','Spearman');
 
                 end
             end
@@ -149,18 +151,21 @@ for iter = 1:IT % iterate ___ times (set at top)
 
         end
 
+
+
+        % =======================================================================
+        %% Save
+        % =======================================================================
+
+        if which_DS == 1
+            save(['//Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabTypAnat'],'Stab','r_stab_ds1','p_stab_ds1','Avg_Stab','r_typ_ds1','p_typ_ds1','Avg_Typ');
+        elseif which_DS == 2
+            save(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabTypAnat'],'Stab','Typ','corr_typ_ATTN','sig_typ_ATTN','corr_typ_WM','sig_typ_WM','corr_stab_ATTN', 'sig_stab_ATTN', 'corr_stab_WM', 'sig_stab_WM');
+        elseif which_DS == 3
+            save(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabTypAnat'],'Stab','Typ','corr_typ_ATTN','sig_typ_ATTN','corr_typ_WM','sig_typ_WM','corr_stab_ATTN', 'sig_stab_ATTN', 'corr_stab_WM', 'sig_stab_WM');
+        end
+
+
+
     end % for net =
-
 end % for iter = IT
-
-% =======================================================================
-%% Save
-% =======================================================================
-
-if which_DS == 1
-    save(['//Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabAnat'],'Stab','r_stab_ds1','p_stab_ds1','Avg_Stab','r_typ_ds1','p_typ_ds1','Avg_Typ');
-elseif which_DS == 2
-    save(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabAnat'],'Stab','Typ','corr_typ_ATTN','sig_typ_ATTN','corr_typ_WM','sig_typ_WM','corr_stab_ATTN', 'sig_stab_ATTN', 'corr_stab_WM', 'sig_stab_WM');
-elseif which_DS == 3
-    save(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_NullStabAnat'],'Stab','Typ','corr_typ_ATTN','sig_typ_ATTN','corr_typ_WM','sig_typ_WM','corr_stab_ATTN', 'sig_stab_ATTN', 'corr_stab_WM', 'sig_stab_WM');
-end

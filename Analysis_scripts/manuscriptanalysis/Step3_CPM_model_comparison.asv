@@ -235,30 +235,30 @@ for d = 1:3 % loop through dataset
     if d == 1
 
         df_out_SA(ct+1:new_ct,1) = normalize(behav_ATTN); % normalized behavior
-        df_out_SA(ct+1:new_ct,2) = normalize(Avg_Stab); % stability
-        df_out_SA(ct+1:new_ct,3) = normalize(Avg_Typ); % typicality
-        df_out_SA(ct+1:new_ct,4) = normalize(Avg_Disc); % discriminability
-        df_out_SA(ct+1:new_ct,5) = normalize(Avg_Opt); % optimality
+        df_out_SA(ct+1:new_ct,2) = Avg_Stab; % stability
+        df_out_SA(ct+1:new_ct,3) = Avg_Typ; % typicality
+        df_out_SA(ct+1:new_ct,4) = Avg_Disc; % discriminability
+        df_out_SA(ct+1:new_ct,5) = Avg_Opt; % optimality
         df_out_SA(ct+1:new_ct,6) = repelem(d,length(behav_ATTN)); % dataset
-        df_out_SA(ct+1:new_ct,7) = normalize(sa_strength);% saCPM strength summary feature
+        df_out_SA(ct+1:new_ct,7) = sa_strength;% saCPM strength summary feature
 
         load([mot_ds{d}]);
-        df_out_SA(ct+1:new_ct,8) = normalize(nanmean([mot{1},mot{2},mot{3}],2));
-        df_out_SA(ct+1:new_ct,9) = normalize(nanmean([abs(mot{1}-mot{2}), abs(mot{1} - mot{3}), abs(mot{2}-mot{3})],2));
+        df_out_SA(ct+1:new_ct,8) = nanmean([mot{1},mot{2},mot{3}],2);
+        df_out_SA(ct+1:new_ct,9) = nanmean([abs(mot{1}-mot{2}), abs(mot{1} - mot{3}), abs(mot{2}-mot{3})],2);
 
     else
 
         df_out_SA(ct+1:new_ct,1) = normalize(behav_ATTN); % normalized behavior
-        df_out_SA(ct+1:new_ct,2) = normalize(Stab{1,2}); % stability
-        df_out_SA(ct+1:new_ct,3) = normalize(Typ{1,2}); % typicality
-        df_out_SA(ct+1:new_ct,4) = normalize(Disc{1,2}); % discriminability
-        df_out_SA(ct+1:new_ct,5) = normalize(Opt_SA{1,2}); % optimality
+        df_out_SA(ct+1:new_ct,2) = Stab{1,2}; % stability
+        df_out_SA(ct+1:new_ct,3) = Typ{1,2}; % typicality
+        df_out_SA(ct+1:new_ct,4) = Disc{1,2}; % discriminability
+        df_out_SA(ct+1:new_ct,5) = Opt_SA{1,2}; % optimality
         df_out_SA(ct+1:new_ct,6) = repelem(d,length(behav_ATTN)); % dataset
-        df_out_SA(ct+1:new_ct,7) = normalize(sa_strength);% saCPM strength summary feature
+        df_out_SA(ct+1:new_ct,7) = sa_strength;% saCPM strength summary feature
 
         load([mot_ds{d}]);
-        df_out_SA(ct+1:new_ct,8) = normalize(nanmean([mot{1}, mot{2}],2));
-        df_out_SA(ct+1:new_ct,9) = normalize(abs(mot{1}-mot{2}));
+        df_out_SA(ct+1:new_ct,8) = nanmean([mot{1}, mot{2}],2);
+        df_out_SA(ct+1:new_ct,9) = abs(mot{1}-mot{2});
 
     end
     ct = new_ct;
@@ -277,16 +277,16 @@ for d = 2:3
 
 
     df_out_WM(ct+1:new_ct,1) = normalize(behav_WM); % normalized behavior
-    df_out_WM(ct+1:new_ct,2) = normalize(Stab{3,4}); % stability
-    df_out_WM(ct+1:new_ct,3) = normalize(Typ{3,4}); % typicality
-    df_out_WM(ct+1:new_ct,4) = normalize(Disc{3,4}); % discriminability
-    df_out_WM(ct+1:new_ct,5) = normalize(Opt_WM{3,4}); % optimality
+    df_out_WM(ct+1:new_ct,2) = Stab{3,4}; % stability
+    df_out_WM(ct+1:new_ct,3) = Typ{3,4}; % typicality
+    df_out_WM(ct+1:new_ct,4) = Disc{3,4}; % discriminability
+    df_out_WM(ct+1:new_ct,5) = Opt_WM{3,4}; % optimality
     df_out_WM(ct+1:new_ct,6) = repelem(d,length(behav_WM)); % dataset
-    df_out_WM(ct+1:new_ct,7) = normalize(wm_strength); % normalized wm CPM strength summary feature
+    df_out_WM(ct+1:new_ct,7) = wm_strength; % normalized wm CPM strength summary feature
 
     load([mot_ds{d}]);
-    df_out_WM(ct+1:new_ct,8) = normalize(nanmean([mot{3}, mot{4}],2));
-    df_out_WM(ct+1:new_ct,9) = normalize(abs(mot{3}-mot{4}));
+    df_out_WM(ct+1:new_ct,8) = nanmean([mot{3}, mot{4}],2);
+    df_out_WM(ct+1:new_ct,9) = abs(mot{3}-mot{4});
 
     ct = new_ct;
 
@@ -296,5 +296,5 @@ end
 %% Output table 
 % =======================================================================
 
-writematrix(df_out_SA,['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_SA_NormWithinDataset.txt'],'FileType','text','Delimiter','\t');
+writematrix(df_out_SA,['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_SA.txt'],'FileType','text','Delimiter','\t');
 writematrix(df_out_WM,['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_WM_NormWithinDataset.txt'],'FileType','text','Delimiter','\t');

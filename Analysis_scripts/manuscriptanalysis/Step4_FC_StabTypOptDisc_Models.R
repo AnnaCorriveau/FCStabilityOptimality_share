@@ -20,8 +20,6 @@ setnames(df, new = names)
 dataset <- factor(df$dataset)
 df5 <- scale(df[1:5])
 dfmot <- scale(df[8:9])
-#df5 <- df[1:5]
-#dfmot <- df[8:9]
 df <- cbind(df5, dataset, dfmot)
 
 df <- data.frame(df)
@@ -32,7 +30,6 @@ df <- df[!is.na(df$stab),]
 df <- df[!is.na(df$typ),]
 df <- df[!is.na(df$opt),]
 df <- df[!is.na(df$disc),]
-
 
 
 # does stability predict SA performance across datasets?
@@ -109,7 +106,6 @@ summary(model_WM_opt)
 
 # does discriminability predict WM performance across datasets?
 model_WM_disc <- lmer(behav ~ disc + mot_avg + mot_diff + (1 | dataset), data=dw)
-#anova(model_WM_disc)
 summary(model_WM_disc)
 
 
@@ -139,7 +135,7 @@ anova(model_WM_stab, model_WM_stabopt)
 # =======# How do saCPM strength and FC features compare?=======================
 # ==============================================================================
 # Reload datasets -- do not need to scale across datasets since we will be modeling within
-df <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_SA.txt')
+df <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_SA_NormWithinDataset.txt')
 names <- c('behav', 'stab', 'typ', 'disc', 'opt', 'dataset','saCPM_strength','mot_avg','mot_diff')
 setnames(df, new = names)
 
@@ -154,7 +150,7 @@ df1 <- df[df$dataset == 1,]
 df2 <- df[df$dataset == 2,]
 df3 <- df[df$dataset == 3,]
 
-dw <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_WM.txt')
+dw <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_WM_NormWithinDataset.txt')
 names <- c('behav', 'stab', 'typ', 'disc', 'opt', 'dataset','wmCPM_strength','mot_avg','mot_diff')
 setnames(dw, new = names)
 # Delete any NAs so we can compare across all variables
@@ -205,14 +201,6 @@ model_SA3_saCPM_opt <- glm(behav~saCPM_strength*opt + mot_avg + mot_diff, data =
 summary(model_SA3_saCPM_opt)
 
 
-model_SA3_saCPM_stabINT <- glm(behav~stab + saCPM_strength:stab + mot_avg + mot_diff, data = df3)
-summary(model_SA3_saCPM_stabINT)
-model_SA3_saCPM_typINT <- glm(behav~typ + saCPM_strength:typ + mot_avg + mot_diff, data = df3)
-summary(model_SA3_saCPM_typINT)
-model_SA3_saCPM_optINT <- glm(behav~opt + saCPM_strength:opt + mot_avg + mot_diff, data = df3)
-summary(model_SA3_saCPM_optINT)
-
-
 # Working memory DS2
 model_WM2_wmCPM <- glm(behav~wmCPM_strength + mot_avg + mot_diff, data = dw2)
 summary(model_WM2_wmCPM)
@@ -238,31 +226,33 @@ summary(model_WM2_wmCPM_opt)
 #
 df <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_SA_NoNorm.txt')
 ID_ATTN <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_ID_ATTN.txt')
-ID <- ID_ATTN$V1
-names <- c('behav', 'stab', 'typ', 'disc', 'opt', 'dataset','saCPM_strength','mot_avg','mot_diff','ID')
-setnames(df, new = names)
-dataset <- factor(df$dataset)
+ID_unscale <- ID_ATTN$V1
+dataset <- factor(df$V6)
 df5 <- scale(df[1:5])
 dfmot <- scale(df[8:9])
-df <- cbind(df5, dataset, dfmot, scale(ID))
+ID <- scale(ID_unscale)
+df <- cbind(df5, dataset, dfmot, ID)
 df <- data.frame(df)
+names <- c('behav', 'stab', 'typ', 'disc', 'opt', 'dataset','mot_avg','mot_diff','ID')
+setnames(df, new = names)
 
-model_ID_attn <- glm(ID ~ stab + typ + disc, data=df)
+
+model_ID_attn <- lmer(ID ~ stab + typ + (1|dataset), data=df)
 summary (model_ID_attn)
  
 
-dw <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_WM.txt')
+dw <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_GLMinput_WM_NoNorm.txt')
 ID_WM <- read.table('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/FC_DOTS_ID_WM.txt')
-ID <- ID_WM$V1
-names <- c('behav', 'stab', 'typ', 'disc', 'opt', 'dataset','wmCPM_strength','mot_avg','mot_diff')
-setnames(dw, new = names)
-dataset <- factor(dw$dataset)
+ID_unscale <- ID_WM$V1
+dataset <- factor(dw$V6)
 dw5 <- scale(dw[1:5])
 dwmot <- scale(dw[8:9])
-dw <- cbind(dw5, dataset, dwmot, scale(ID))
+ID <- scale(ID_unscale)
+dw <- cbind(dw5, dataset, dwmot, ID)
 dw <- data.frame(dw)
+names <- c('behav', 'stab', 'typ', 'disc', 'opt', 'dataset','mot_avg','mot_diff','ID')
+setnames(dw, new = names)
 
 
-model_ID_wm <- glm(ID ~ stab + typ + disc, data=dw)
+model_ID_wm <- lmer(ID ~ stab + typ + (1|dataset), data=dw)
 summary(model_ID_wm)
-

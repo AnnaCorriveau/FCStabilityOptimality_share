@@ -98,7 +98,7 @@ for net = 1:max(Shen_network_labels) % loop through networks
 
                 self_corr = corr(run1', run2', 'rows','pairwise');
 
-                self_FC = tanh(nanmean([run1; run2])');
+                self_FC = nanmean([run1; run2])';
 
 
                 others1 = fc_flat{r1}(:,lesion_log);
@@ -106,7 +106,7 @@ for net = 1:max(Shen_network_labels) % loop through networks
                 others2 = fc_flat{r2}(:,lesion_log);
                 others2(p,:) = [];
                 cat_others = cat(1, others1, others2);
-                others_FC = tanh(nanmean(cat_others)');
+                others_FC = nanmean(cat_others)';
 
                 Stab{r1,r2}(p,:) = self_corr;
                 Typ{r1,r2}(p,1) = corr(self_FC, others_FC,'rows','pairwise');
@@ -156,7 +156,7 @@ end % for net =
 % =======================================================================
 
 if which_DS == 1
-    save(['//Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_StabAnat'],'Stab','r_stab_ds1', 'p_stab_ds1','Avg_Stab','r_typ_ds1','p_typ_ds','Avg_Typ');
+    save(['//Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_StabAnat'],'Stab','r_stab_ds1', 'p_stab_ds1','Avg_Stab','r_typ_ds1','p_typ_ds1','Avg_Typ');
 elseif which_DS == 2
     save(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS' num2str(which_DS) '_StabAnat'],'Stab','Typ','corr_typ_ATTN','sig_typ_ATTN','corr_typ_WM','sig_typ_WM','corr_stab_ATTN', 'sig_stab_ATTN', 'corr_stab_WM', 'sig_stab_WM');
 elseif which_DS == 3

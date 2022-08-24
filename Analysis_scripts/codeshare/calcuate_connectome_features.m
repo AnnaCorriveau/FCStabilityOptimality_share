@@ -63,7 +63,7 @@ else
         opt_fc = vertcat(opt_fc, fc_flat{r}(top_log,:));
     end
 end
-fc_top = tanh(nanmean(opt_fc));
+fc_top = nanmean(opt_fc);
 
 % create dataset with optimal performers removed
 fc_flat_minustop = fc_flat;
@@ -88,7 +88,7 @@ for p = 1:size(fc_flat{1},1)
 
             self_corr = corr(run1', run2', 'rows','pairwise');
 
-            self_FC = tanh(nanmean([run1; run2])');
+            self_FC = nanmean([run1; run2])';
 
             others1 = fc_flat{r1};
             others1(p,:) = [];
@@ -97,7 +97,7 @@ for p = 1:size(fc_flat{1},1)
 
             cat_others = cat(1, others1, others2);
 
-            others_FC = tanh(nanmean(cat_others)');
+            others_FC = nanmean(cat_others)';
 
             typicality{r1,r2}(p,1) = corr(self_FC, others_FC,'rows','pairwise');
             stability{r1,r2}(p,:) = self_corr;
@@ -107,7 +107,7 @@ for p = 1:size(fc_flat{1},1)
             % Optimality analysis
             run1_top = fc_flat_minustop{r1}(p,:);
             run2_top = fc_flat_minustop{r2}(p,:);
-            self_FC_top = tanh(nanmean([run1_top; run2_top])');
+            self_FC_top = nanmean([run1_top; run2_top])';
             optimality{r1,r2}(p,1) = corr(self_FC_top, fc_top' ,'rows','pairwise');
 
 

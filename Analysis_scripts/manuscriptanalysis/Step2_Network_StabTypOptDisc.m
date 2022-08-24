@@ -9,7 +9,7 @@ clear
 % =======================================================================
 
 % Which dataset do you want to calculate? 1, 2, or 3
-which_DS = [1];
+which_DS = [3];
 
 % What proportion of top performers will be averaged to create "optimal" connectome
 top_percent = .05; 
@@ -72,7 +72,7 @@ topSA_log = logical(top_behav_ATTN);
 disp(['SA opt N = ' num2str(sum(top_behav_ATTN))])
 
 if which_DS > 1
-    fc_topSA = tanh(nanmean([fc_flat{1}(topSA_log,:); fc_flat{2}(topSA_log,:)])); % Calculate "optimal" sustained attention (runs 1 + 2) FC matrix 
+    fc_topSA = nanmean([fc_flat{1}(topSA_log,:); fc_flat{2}(topSA_log,:)]); % Calculate "optimal" sustained attention (runs 1 + 2) FC matrix 
 
     % identify top performers WM
     topK_WM = ceil(top_percent * length(behav_WM(~isnan(behav_WM))));
@@ -86,7 +86,7 @@ if which_DS > 1
     topWM_log = logical(top_behav_WM);
     disp(['WM opt N = ' num2str(sum(top_behav_WM))])
 
-    fc_topWM = tanh(nanmean([fc_flat{3}(topWM_log,:); fc_flat{4}(topWM_log,:)])); % Calculate optimal working memory (runs 3 + 4) FC matrix
+    fc_topWM = nanmean([fc_flat{3}(topWM_log,:); fc_flat{4}(topWM_log,:)]); % Calculate optimal working memory (runs 3 + 4) FC matrix
 
     fc_flat_minustop = fc_flat;
     fc_flat_minustop{1}(topSA_log,:) = NaN; % remove top sustained attention performers from runs 1 and 2
@@ -97,7 +97,7 @@ if which_DS > 1
 else % if calculating optimal FC for DS1
     
     % create optimal sustained attention FC pattern for DS1 (runs 1-3)
-    fc_topSA = tanh(nanmean([fc_flat{1}(topSA_log,:); fc_flat{2}(topSA_log,:); fc_flat{3}(topSA_log,:)])); % Do not take atanh before averaging, these are already fisher-z scored
+    fc_topSA = nanmean([fc_flat{1}(topSA_log,:); fc_flat{2}(topSA_log,:); fc_flat{3}(topSA_log,:)]); % Do not take atanh before averaging, these are already fisher-z scored
     
     % remove top sustained attention performers from data so we don't
     % double-dip
@@ -154,7 +154,7 @@ for net1 = 1:max(Shen_network_labels)
                     self_corr = corr(run1', run2', 'rows','pairwise');
                     
                     % find participant's mean FC in relevant edges across runs
-                    self_FC = tanh(nanmean([run1; run2])');
+                    self_FC = nanmean([run1; run2])';
 
                     % find mean FC across all other participants
                     others1 = fc_flat{r1}(:,net_log);
@@ -162,7 +162,7 @@ for net1 = 1:max(Shen_network_labels)
                     others2 = fc_flat{r2}(:,net_log);
                     others2(p,:) = [];
                     cat_others = cat(1, others1, others2);
-                    others_FC = tanh(nanmean(cat_others)');
+                    others_FC = nanmean(cat_others)';
 
                     % Calculate stability and typicality in network
                     Stab{net1,net2}{r1,r2}(p,:) = self_corr;
@@ -171,7 +171,7 @@ for net1 = 1:max(Shen_network_labels)
                     % Calculate similarity to optimal network FC
                     run1_top = fc_flat_minustop{r1}(p,net_log);
                     run2_top = fc_flat_minustop{r2}(p,net_log);
-                    self_FC_top = tanh(nanmean([run1_top; run2_top])');
+                    self_FC_top = nanmean([run1_top; run2_top])';
 
                     fc_topSA_net = fc_topSA(net_log); % Find network indices of optimal FC pattern
                     Opt_SA{net1,net2}{r1,r2}(p,1) = corr(self_FC_top, fc_topSA_net' ,'rows','pairwise');

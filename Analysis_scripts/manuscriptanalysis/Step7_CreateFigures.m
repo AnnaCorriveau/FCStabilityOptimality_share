@@ -8,7 +8,7 @@ clear
 % ===============================================================================================
 % Load DS1
 
-load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS1_StabTypDisc_OptCutoff']);
+load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS1_StabTypDisc.mat']);
 fig2_stab_SA_ds1 = Avg_Stab; % Save stability vector for scatter plot
 fig2_behav_SA_ds1 = behav_ATTN; % Behavior performance vector for scatter plot
 fig3_stabmat_SA_ds1 = corr_stab_ATTN; % Stability matrix
@@ -59,7 +59,7 @@ clear behav_ATTN
 % ===============================================================================================
 % Load DS2
 
-load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS2_StabTypDisc_OptCutoff']);
+load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS2_StabTypDisc.mat']);
 fig2_stab_SA_ds2 = Stab{1,2}; % Stability vector for scatter plot
 fig2_behav_SA_ds2 = behav_ATTN; % attention performance vector for scatter plot
 fig3_stabmat_SA_ds2 = corr_stab_ATTN; % stability-performance correlation matrix
@@ -163,7 +163,7 @@ clear Stab behav_ATTN behav_WM Typ Opt_SA Opt_WM Disc
 % ===============================================================================================
 % Load DS3
 
-load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_StabTypDisc_OptCutoff']);
+load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_StabTypDisc.mat']);
 
 % Stability scatter plot
 fig2_stab_SA_ds3 = Stab{1,2};
@@ -235,7 +235,7 @@ figSup1_ds3_attn(5) = corr_typ_ATTN(9,10);
 figSup1_ds3_attn(6) = corr_typ_ATTN(11,12);
 figSup1_ds3_attn(7) = corr_typ_ATTN(13,14);
 figSup1_ds3_attn(8) = corr_typ_ATTN(15,16);
-load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_RestTyps.mat']);
+% load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_RestTyps.mat']);
 figSup1_ds3_attn(9) = OverRest_typ_ATTN;
 
 figSup1_ds3_wm(1) = corr_typ_WM(1,2);
@@ -1412,8 +1412,10 @@ set(ha(12),'position',[.5 .55 sz sz])
 set(ha(14),'position',[.26 .55 sz sz])
 set(ha(16),'position',[.05 .55 sz sz]) % top left
 
-%% Repeat for Disc and optimality for review
-
+% ================================================================
+%         Repeat for Disc and optimality 
+%%          Supplementary figure 3
+% ================================================================
 for net1 = 1:max(Shen_network_labels)
     for net2 = 1:max(Shen_network_labels)
 
@@ -1472,7 +1474,7 @@ clims2_Norm = [-1*cc2 cc2];
 
 % Plot
 figure
-% Average Optility across datasets for sustained attention
+% Average Optimality across datasets for sustained attention
 ax(1) = subplot(2,4,1);
 imagesc(meanNetSA_Opt);
 colormap(ax(1), lightbluewhiteblack);
@@ -1486,7 +1488,7 @@ hh = colorbar;
 ylabel(hh,"Pearson's r",'FontSize',16,'Rotation',270);
 hh.Label.Position = [4.5 0];
 
-% Average Normalized Optility for sustained attention
+% Average Normalized Optimality for sustained attention
 ax(2) = subplot(2,4,2);
 imagesc(meanNetSA_Opt_Norm);
 colormap(ax(2), lightbluewhiteblack);
@@ -1499,7 +1501,7 @@ hh = colorbar;
 ylabel(hh,"Normalized r",'FontSize',16,'Rotation',270);
 hh.Label.Position = [5.5 0];
 
-% Average Optility across datasets for working memory
+% Average Optimality across datasets for working memory
 ax(3) = subplot(2,4,3);
 imagesc(meanNetWM_Opt);
 colormap(ax(3), lightbluewhiteblack);
@@ -1512,7 +1514,7 @@ hh = colorbar;
 ylabel(hh,"Pearson's r",'FontSize',16,'Rotation',270);
 hh.Label.Position = [4.5 0];
 
-% Average Normalized Optility for working memory
+% Average Normalized Optimality for working memory
 ax(4) = subplot(2,4,4);
 imagesc(meanNetWM_Opt_Norm);
 colormap(ax(4), lightbluewhiteblack);
@@ -1525,7 +1527,7 @@ hh = colorbar;
 ylabel(hh,"Normalized r",'FontSize',16,'Rotation',270);
 hh.Label.Position = [5.5 0];
 
-% Average Discicality across datasets for sustained attention
+% Average Discriminability across datasets for sustained attention
 ax(5) = subplot(2,4,5);
 imagesc(real(meanNetSA_Disc));
 colormap(ax(5), greenwhiteblack);
@@ -1538,10 +1540,10 @@ xticklabels(network_names);
 xtickangle(45);
 set(gca, 'FontSize',20)
 hh = colorbar;
-ylabel(hh,"Pearson's r",'FontSize',16,'Rotation',270);
+ylabel(hh,"Ratio of Pearson's r",'FontSize',16,'Rotation',270);
 hh.Label.Position = [4.5 0];
 
-% Average Normalized Discicality for sustained attention
+% Average Normalized Discriminability for sustained attention
 ax(6) = subplot(2,4,6);
 imagesc(real(meanNetSA_Disc_Norm));
 colormap(ax(6), greenwhiteblack);
@@ -1553,10 +1555,10 @@ xticklabels(network_names);
 xtickangle(45);
 set(gca, 'FontSize',20)
 hh = colorbar;
-ylabel(hh,"Normalized r",'FontSize',16,'Rotation',270);
+ylabel(hh,"Normalized r ratio",'FontSize',16,'Rotation',270);
 hh.Label.Position = [5.5 0];
 
-% Average Discicality across datasets for working memory
+% Average Discriminability across datasets for working memory
 ax(7) = subplot(2,4,7);
 imagesc(real(meanNetWM_Disc));
 colormap(ax(7), greenwhiteblack);
@@ -1568,10 +1570,10 @@ xticklabels(network_names);
 xtickangle(45);
 set(gca, 'FontSize',20)
 hh = colorbar;
-ylabel(hh,"Pearson's r",'FontSize',16,'Rotation',270);
+ylabel(hh,"Ratio of Pearson's r",'FontSize',16,'Rotation',270);
 hh.Label.Position = [4.5 0];
 
-% Average Normalized Discicality for working memory
+% Average Normalized Discriminability for working memory
 ax(8) = subplot(2,4,8);
 imagesc(real(meanNetWM_Disc_Norm));
 colormap(ax(8), greenwhiteblack);
@@ -1583,7 +1585,7 @@ xticklabels(network_names);
 xtickangle(45);
 set(gca, 'FontSize',20)
 hh = colorbar;
-ylabel(hh,"Normalized r",'FontSize',16,'Rotation',270);
+ylabel(hh,"Normalized r ratio",'FontSize',16,'Rotation',270);
 hh.Label.Position = [5.5 0];
 set(gcf,'Position',[0 0 1800 1000])
 
@@ -1611,7 +1613,7 @@ set(ha(16),'position',[.05 .55 sz sz]) % top left
 
 %%
 % ================================================================
-%%                 Plot supplementary figure S3 
+%%                 Plot supplementary figure S4 
 %           Network stability and typicality by dataset
 % ================================================================
 figure
@@ -2179,11 +2181,19 @@ for n = 1:size(corr_stab_ATTN,2) %loop through networks to save relevant values
     lesioned_typ_ds3_wm(n) = corr_typ_WM{n}(3,4);
 end
 
+% Load MC shuffled Distributions
+% load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS1_NullStabAnat.mat')
+
+
+
+
 % Load MC shuffled null distributions
 load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS1_NullStabAnat_clean3SA.mat')
 null_stab_ds1_attn = cell2mat(r_stab_ds1);
 
-load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS1_NullTypAnat.mat']);
+load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS1_NullStabTypAnat.mat');
+% load(['/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS1_NullTypAnat.mat']);
+% load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS1_NullStabAnat.mat')
 null_typ_ds1_attn = cell2mat(r_typ_ds1);
 null_typ_ds1_attn = null_typ_ds1_attn(:,1:250);
 
@@ -2201,13 +2211,17 @@ for i = 1:size(corr_stab_WM,2)
     end
 end
 
-load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS2_NullTypAnat1SA.mat');
+
+
+
+% load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS2_NullStabTypAnat.mat');
+load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS2_NullStabTypAnat_SA.mat');
 for i = 1:size(corr_typ_ATTN,2)
     for p = 1:size(corr_typ_ATTN,1)
         null_typ_ds2_attn(p,i) = corr_typ_ATTN{p,i}(1,2);
     end
 end
-load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS2_NullTypAnat1WM.mat');
+load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS2_NullStabTypAnat_WM.mat');
 for i = 1:size(corr_typ_WM,2)
     for p = 1:size(corr_typ_WM,1)
         null_typ_ds2_wm(p,i) = corr_typ_WM{p,i}(3,4);
@@ -2221,9 +2235,7 @@ for i = 1:size(corr_stab_ATTN,2)
         null_stab_ds3_attn(p,i) = corr_stab_ATTN{p,i}(1,2);
     end
 end
-
 load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_NullStabAnat1WM.mat');
-
 for i = 1:size(corr_stab_WM,2)-1
     for p = 1:size(corr_stab_WM,1)
         null_stab_ds3_wm(p,i) = corr_stab_WM{p,i}(3,4);
@@ -2238,7 +2250,10 @@ for i = 1:size(corr_stab_WM,2)-1
 end
 null_stab_ds3_wm = null_stab_ds3_wm(:,1:1000);
 
-% Ds3 typicality
+
+
+% DS3 typicality - ran these in batches so load in both batches and
+% concatenate
 load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_NullTypAnat1SA.mat');
 for i = 1:size(corr_typ_ATTN,2)-1
     for p = 1:size(corr_typ_ATTN,1)
@@ -2246,14 +2261,7 @@ for i = 1:size(corr_typ_ATTN,2)-1
     end
 end
 ct = size(null_typ_ds3_attn,2);
-load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_NullTypAnat__3SA.mat');
-for i = 1:size(corr_typ_ATTN,2)-1
-    for p = 1:size(corr_typ_ATTN,1)
-        null_typ_ds3_attn(p, i + ct) = corr_typ_ATTN{p,i}(1,2);
-    end
-end
-ct = size(null_typ_ds3_attn,2);
-load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_NullTypAnat__SA4.mat');
+load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_NullTypAnat2SA.mat');
 for i = 1:size(corr_typ_ATTN,2)-1
     for p = 1:size(corr_typ_ATTN,1)
         null_typ_ds3_attn(p, i + ct) = corr_typ_ATTN{p,i}(1,2);
@@ -2268,14 +2276,7 @@ for i = 1:size(corr_typ_WM,2)-1
     end
 end
 ct = size(null_typ_ds3_wm,2);
-load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_NullTypAnat__2WM.mat');
-for i = 1:size(corr_typ_WM,2)-1
-    for p = 1:size(corr_typ_WM,1)
-        null_typ_ds3_wm(p, i + ct) = corr_typ_WM{p,i}(3,4);
-    end
-end
-ct = size(null_typ_ds3_wm,2);
-load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_NullTypAnat__WM4.mat');
+load('/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/DS3_NullTypAnat2WM.mat');
 for i = 1:size(corr_typ_WM,2)-1
     for p = 1:size(corr_typ_WM,1)
         null_typ_ds3_wm(p, i + ct) = corr_typ_WM{p,i}(3,4);
@@ -2543,7 +2544,7 @@ scatter([1:length(sig_ds3_typanat_wm)], [sig_ds3_typanat_wm * ds3_typWM_ylim(2)]
 set(gcf, 'Position', [0 0 1800 1000]);
 annotation('textbox', [0.2, 0.96, 0.6, 0.05], 'string', {['Sustained Attention']},'FontSize',30,'FontWeight','bold','EdgeColor','none')
 annotation('textbox', [0.7, 0.96, 0.6, 0.05], 'string', {['Working Memory']},'FontSize',30,'FontWeight','bold','EdgeColor','none')
-
+saveas(gcf, '/Users/annacorriveau/Documents/GitHub/FCStability_Typicality/outputs/Figures/Figures_Final/MATLAB_Figures/Fig6.svg');
 
 % --------------------------------------------------------------------------------------------
 %% -------------------------------   PLOT FIGURE S1  -----------------------------------------
