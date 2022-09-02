@@ -2722,7 +2722,7 @@ for r = 1:size(fc_flat,2) % loop through runs
         if sum(isnan(fc_flat{r}(p,:))) == length(fc_flat{r}(p,:))
             figSup3_ds1(p,r) = NaN;
         else
-            figSup3_ds1(p,r) = tanh(nanstd(fc_flat{r}(p,:)));
+            figSup3_ds1(p,r) = nanstd(fc_flat{r}(p,:));
         end
     end
 end
@@ -2734,7 +2734,7 @@ for i = 1:max(runs)
         ds1_FC_pre(l,:) = real(nanmean(fc_flat{log(l)}));
     end
     ds1_FC_pre(isinf(ds1_FC_pre)) = NaN;
-    ds1_FC_std(i) = tanh(nanstd(nanmean(ds1_FC_pre)));
+    ds1_FC_std(i) = nanstd(tanh(nanmean(ds1_FC_pre)));
     %
     clear ds1_FC_pre
 end
@@ -2745,7 +2745,7 @@ for r = 1:size(fc_flat,2)
         if sum(isnan(fc_flat{r}(p,:))) == length(fc_flat{r}(p,:))
             figSup3_ds2(p,r) = NaN;
         else
-            figSup3_ds2(p,r) = tanh(nanstd(fc_flat{r}(p,:)));
+            figSup3_ds2(p,r) = nanstd(fc_flat{r}(p,:));
         end
     end
 end
@@ -2757,7 +2757,7 @@ for i = 1:max(runs)
         ds2_FC_pre(l,:) = nanmean(fc_flat{log(l)});
     end
     ds2_FC_pre(isinf(ds2_FC_pre)) = NaN;
-    ds2_FC_std(i) = tanh(nanstd(nanmean(ds2_FC_pre)));
+    ds2_FC_std(i) = nanstd(tanh(nanmean(ds2_FC_pre)));
     clear ds2_FC_pre
 end
 
@@ -2767,7 +2767,7 @@ for r = 1:size(fc_flat,2)
         if sum(isnan(fc_flat{r}(p,:))) == length(fc_flat{r}(p,:))
             figSup3_ds3(p,r) = NaN;
         else
-            figSup3_ds3(p,r) = tanh(nanstd(fc_flat{r}(p,:)));
+            figSup3_ds3(p,r) = nanstd(fc_flat{r}(p,:));
         end
     end
 end
@@ -2779,7 +2779,7 @@ for i = 1:max(runs)
         ds3_FC_pre(l,:) = nanmean(fc_flat{log(l)});
     end
     ds3_FC_pre(isinf(ds3_FC_pre)) = NaN;
-    ds3_FC_std(i) = tanh(nanstd(nanmean(ds3_FC_pre)));
+    ds3_FC_std(i) = nanstd(tanh(nanmean(ds3_FC_pre)));
     clear ds3_FC_pre
 end
 
